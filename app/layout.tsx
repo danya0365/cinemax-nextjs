@@ -1,6 +1,6 @@
-import { ThemeProvider } from "@/src/presentation/components";
 import type { Metadata } from "next";
 import "../public/styles/index.css";
+import { Providers } from "./providers";
 
 export const metadata: Metadata = {
   title: "CINEMAX - ดูซีรีย์ไมโครดราม่าออนไลน์",
@@ -34,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="th" suppressHydrationWarning>
       <body className="antialiased">
-        <ThemeProvider>{children}</ThemeProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

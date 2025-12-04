@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useState } from "react";
 import { LanguageSwitcher } from "../LanguageSwitcher";
+import { SearchBar } from "../SearchBar";
 import { ThemeToggle } from "../ThemeToggle";
+import { UserMenu } from "./UserMenu";
 
 interface NavItem {
   label: string;
@@ -53,6 +55,11 @@ export function Header() {
             ))}
           </nav>
 
+          {/* Search Bar */}
+          <div className="hidden lg:block flex-1 max-w-md mx-6">
+            <SearchBar />
+          </div>
+
           {/* Right side actions */}
           <div className="flex items-center gap-3">
             {/* Language Switcher */}
@@ -63,20 +70,9 @@ export function Header() {
             {/* Theme Toggle */}
             <ThemeToggle />
 
-            {/* Auth Buttons */}
-            <div className="hidden sm:flex items-center gap-2">
-              <Link
-                href="/auth/login"
-                className="px-4 py-2 text-sm font-medium text-foreground hover:text-muted transition-colors"
-              >
-                เข้าสู่ระบบ
-              </Link>
-              <Link
-                href="/auth/register"
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
-              >
-                สมัครสมาชิก
-              </Link>
+            {/* User Menu / Auth Buttons */}
+            <div className="hidden sm:block">
+              <UserMenu />
             </div>
 
             {/* Mobile Menu Button */}

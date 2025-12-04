@@ -35,16 +35,16 @@ const footerSections: FooterSection[] = [
       { label: "โปรไฟล์", href: "/profile" },
       { label: "ประวัติการรับชม", href: "/profile/history" },
       { label: "รายการโปรด", href: "/profile/my-list" },
-      { label: "การชำระเงิน", href: "/profile/payments" },
+      { label: "ประวัติการซื้อ", href: "/profile/purchases" },
     ],
   },
   {
     title: "ช่วยเหลือ",
     links: [
-      { label: "คำถามที่พบบ่อย", href: "/help/faq" },
-      { label: "ติดต่อเรา", href: "/help/contact" },
-      { label: "เงื่อนไขการใช้งาน", href: "/terms" },
-      { label: "นโยบายความเป็นส่วนตัว", href: "/privacy" },
+      { label: "คำถามที่พบบ่อย", href: "/help" },
+      { label: "ติดต่อเรา", href: "/contact" },
+      { label: "เกี่ยวกับเรา", href: "/about" },
+      { label: "แพ็คเกจ", href: "/subscription" },
     ],
   },
 ];
