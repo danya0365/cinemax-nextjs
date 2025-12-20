@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { UsersPresenterFactory, type UsersViewModel } from "./UsersPresenter";
+import { type UsersViewModel } from "./UsersPresenter";
+import { createClientUsersPresenter } from "./UsersPresenterClientFactory";
 
-const presenter = UsersPresenterFactory.createClient();
+const presenter = createClientUsersPresenter();
 
 export interface UsersPresenterState {
   viewModel: UsersViewModel | null;

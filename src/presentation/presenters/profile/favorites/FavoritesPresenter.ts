@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export interface FavoriteItem {
@@ -17,6 +15,21 @@ export interface FavoritesViewModel {
   favorites: FavoriteItem[];
   total: number;
 }
+
+type FavoriteRow = {
+  id: string;
+  created_at: string;
+  series?: {
+    id?: string;
+    title?: string;
+    total_episodes?: number;
+    rating?: number;
+    status?: "ongoing" | "completed";
+    category?: {
+      name?: string;
+    } | null;
+  } | null;
+};
 
 export class FavoritesPresenter {
   constructor(private readonly supabase: SupabaseClient) {}
@@ -51,7 +64,9 @@ export class FavoritesPresenter {
       return [];
     }
 
-    return (data || []).map((item: any) => ({
+    const rows = (data || []) as FavoriteRow[];
+
+    return rows.map((item) => ({
       id: item.id,
       series_id: item.series?.id || "",
       title: item.series?.title || "",
@@ -76,17 +91,5 @@ export class FavoritesPresenter {
       title: "รายการโปรด | CINEMAX",
       description: "ดูรายการซีรีย์โปรดของคุณ",
     };
-  }
-}
-
-export class FavoritesPresenterFactory {
-  static async createServer(): Promise<FavoritesPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new FavoritesPresenter(supabase);
-  }
-
-  static createClient(): FavoritesPresenter {
-    const supabase = createClientSupabaseClient();
-    return new FavoritesPresenter(supabase);
   }
 }

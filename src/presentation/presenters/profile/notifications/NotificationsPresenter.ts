@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -118,20 +116,5 @@ export class NotificationsPresenter {
       title: "การแจ้งเตือน | CINEMAX",
       description: "ดูการแจ้งเตือนของคุณ",
     };
-  }
-}
-
-/**
- * Factory for creating NotificationsPresenter instances
- */
-export class NotificationsPresenterFactory {
-  static async createServer(): Promise<NotificationsPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new NotificationsPresenter(supabase);
-  }
-
-  static createClient(): NotificationsPresenter {
-    const supabase = createClientSupabaseClient();
-    return new NotificationsPresenter(supabase);
   }
 }

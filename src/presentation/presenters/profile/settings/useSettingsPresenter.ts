@@ -2,15 +2,15 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
-  SettingsPresenterFactory,
   type Language,
   type Quality,
   type SettingsViewModel,
   type UserSettings,
 } from "./SettingsPresenter";
+import { createClientSettingsPresenter } from "./SettingsPresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = SettingsPresenterFactory.createClient();
+const presenter = createClientSettingsPresenter();
 
 export interface SettingsPresenterState {
   viewModel: SettingsViewModel | null;

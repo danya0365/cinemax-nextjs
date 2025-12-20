@@ -1,10 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { HomePresenterFactory, type HomeViewModel } from "./HomePresenter";
+import { type HomeViewModel } from "./HomePresenter";
+import { createClientHomePresenter } from "./HomePresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = HomePresenterFactory.createClient();
+const presenter = createClientHomePresenter();
 
 export interface HomePresenterState {
   viewModel: HomeViewModel | null;

@@ -1,13 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  PurchasesPresenterFactory,
-  type PurchasesViewModel,
-} from "./PurchasesPresenter";
+import { type PurchasesViewModel } from "./PurchasesPresenter";
+import { createClientPurchasesPresenter } from "./PurchasesPresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = PurchasesPresenterFactory.createClient();
+const presenter = createClientPurchasesPresenter();
 
 export interface PurchasesPresenterState {
   viewModel: PurchasesViewModel | null;

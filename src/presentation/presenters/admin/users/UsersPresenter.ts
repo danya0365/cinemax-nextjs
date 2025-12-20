@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -138,17 +136,5 @@ export class UsersPresenter {
       title: "จัดการผู้ใช้ | CINEMAX Admin",
       description: "ดูและจัดการผู้ใช้ทั้งหมดในระบบ",
     };
-  }
-}
-
-export class UsersPresenterFactory {
-  static async createServer(): Promise<UsersPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new UsersPresenter(supabase);
-  }
-
-  static createClient(): UsersPresenter {
-    const supabase = createClientSupabaseClient();
-    return new UsersPresenter(supabase);
   }
 }

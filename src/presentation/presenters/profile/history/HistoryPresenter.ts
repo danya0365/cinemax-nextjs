@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export interface WatchHistoryItem {
@@ -17,6 +15,21 @@ export interface HistoryViewModel {
   history: WatchHistoryItem[];
   total: number;
 }
+
+type WatchHistoryRow = {
+  id: string;
+  progress: number;
+  updated_at: string;
+  episode?: {
+    id?: string;
+    episode_number?: number;
+    series?: {
+      id?: string;
+      title?: string;
+      total_episodes?: number;
+    } | null;
+  } | null;
+};
 
 export class HistoryPresenter {
   constructor(private readonly supabase: SupabaseClient) {}
@@ -50,7 +63,9 @@ export class HistoryPresenter {
       return [];
     }
 
-    return (data || []).map((item: any) => ({
+    const rows = (data || []) as WatchHistoryRow[];
+
+    return rows.map((item) => ({
       id: item.id,
       series_id: item.episode?.series?.id || "",
       episode_id: item.episode?.id || "",
@@ -75,17 +90,5 @@ export class HistoryPresenter {
       title: "ประวัติการรับชม | CINEMAX",
       description: "ดูประวัติการรับชมของคุณ",
     };
-  }
-}
-
-export class HistoryPresenterFactory {
-  static async createServer(): Promise<HistoryPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new HistoryPresenter(supabase);
-  }
-
-  static createClient(): HistoryPresenter {
-    const supabase = createClientSupabaseClient();
-    return new HistoryPresenter(supabase);
   }
 }

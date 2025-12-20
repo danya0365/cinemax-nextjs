@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -250,20 +248,5 @@ export class AnalyticsPresenter {
       title: "Analytics | CINEMAX Admin",
       description: "ภาพรวมสถิติและประสิทธิภาพ",
     };
-  }
-}
-
-/**
- * Factory for creating AnalyticsPresenter instances
- */
-export class AnalyticsPresenterFactory {
-  static async createServer(): Promise<AnalyticsPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new AnalyticsPresenter(supabase);
-  }
-
-  static createClient(): AnalyticsPresenter {
-    const supabase = createClientSupabaseClient();
-    return new AnalyticsPresenter(supabase);
   }
 }

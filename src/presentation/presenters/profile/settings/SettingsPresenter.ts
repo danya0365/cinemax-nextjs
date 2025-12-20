@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -132,20 +130,5 @@ export class SettingsPresenter {
       title: "ตั้งค่า | CINEMAX",
       description: "จัดการการตั้งค่าบัญชีของคุณ",
     };
-  }
-}
-
-/**
- * Factory for creating SettingsPresenter instances
- */
-export class SettingsPresenterFactory {
-  static async createServer(): Promise<SettingsPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new SettingsPresenter(supabase);
-  }
-
-  static createClient(): SettingsPresenter {
-    const supabase = createClientSupabaseClient();
-    return new SettingsPresenter(supabase);
   }
 }

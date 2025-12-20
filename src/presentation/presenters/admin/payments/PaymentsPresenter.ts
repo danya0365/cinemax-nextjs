@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export interface Payment {
@@ -27,6 +25,25 @@ export interface PaymentsViewModel {
   stats: PaymentsStats;
   total: number;
 }
+
+type PaymentRow = {
+  id: string;
+  amount: number;
+  payment_method: string;
+  status: string;
+  created_at: string;
+  user?: {
+    id?: string;
+    email?: string;
+    username?: string;
+  } | null;
+  episode?: {
+    title?: string;
+    series?: {
+      title?: string;
+    } | null;
+  } | null;
+};
 
 export class PaymentsPresenter {
   constructor(private readonly supabase: SupabaseClient) {}
@@ -96,18 +113,20 @@ export class PaymentsPresenter {
       return [];
     }
 
-    return (data || []).map((item: any) => ({
-      id: item.id,
-      user_id: item.user?.id || "",
-      user_name: item.user?.username || "Unknown",
-      user_email: item.user?.email || "",
-      episode_title: item.episode?.title || "",
-      series_title: item.episode?.series?.title || "",
-      amount: item.amount || 0,
-      method: item.payment_method || "",
-      status: item.status || "pending",
-      created_at: item.created_at,
-    }));
+    return (
+      (data as PaymentRow[] | null)?.map((item) => ({
+        id: item.id,
+        user_id: item.user?.id || "",
+        user_name: item.user?.username || "Unknown",
+        user_email: item.user?.email || "",
+        episode_title: item.episode?.title || "",
+        series_title: item.episode?.series?.title || "",
+        amount: item.amount || 0,
+        method: item.payment_method || "",
+        status: (item.status as Payment["status"]) || "pending",
+        created_at: item.created_at,
+      })) || []
+    );
   }
 
   async getStats(): Promise<PaymentsStats> {
@@ -161,17 +180,5 @@ export class PaymentsPresenter {
       title: "การชำระเงิน | CINEMAX Admin",
       description: "ดูรายงานและจัดการการชำระเงิน",
     };
-  }
-}
-
-export class PaymentsPresenterFactory {
-  static async createServer(): Promise<PaymentsPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new PaymentsPresenter(supabase);
-  }
-
-  static createClient(): PaymentsPresenter {
-    const supabase = createClientSupabaseClient();
-    return new PaymentsPresenter(supabase);
   }
 }

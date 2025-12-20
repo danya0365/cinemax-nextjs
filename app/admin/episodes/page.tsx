@@ -1,5 +1,5 @@
 import { EpisodesView } from "@/src/presentation/components/admin/episodes";
-import { EpisodesPresenterFactory } from "@/src/presentation/presenters/admin/episodes";
+import { createServerEpisodesPresenter } from "@/src/presentation/presenters/admin/episodes/EpisodesPresenterServerFactory";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export const fetchCache = "force-no-store";
  * Generate metadata for the page
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const presenter = await EpisodesPresenterFactory.createServer();
+  const presenter = await createServerEpisodesPresenter();
   return presenter.generateMetadata();
 }
 
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * Uses presenter pattern following Clean Architecture
  */
 export default async function AdminEpisodesPage() {
-  const presenter = await EpisodesPresenterFactory.createServer();
+  const presenter = await createServerEpisodesPresenter();
 
   try {
     // Get view model from presenter

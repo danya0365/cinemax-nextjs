@@ -3,6 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 
+export const dynamic = "force-dynamic";
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -38,13 +40,13 @@ export async function POST(request: NextRequest) {
 
       case "customer.subscription.created":
       case "customer.subscription.updated": {
-        const subscription = event.data.object as Stripe.Subscription;
+        const subscription = event.data.object as unknown as WebhookSubscription;
         await handleSubscriptionUpdate(subscription);
         break;
       }
 
       case "customer.subscription.deleted": {
-        const subscription = event.data.object as Stripe.Subscription;
+        const subscription = event.data.object as unknown as WebhookSubscription;
         await handleSubscriptionCanceled(subscription);
         break;
       }
@@ -123,7 +125,14 @@ async function handleCheckoutComplete(session: Stripe.Checkout.Session) {
   }
 }
 
-async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
+interface WebhookSubscription {
+  id: string;
+  status: string;
+  customer: string;
+  current_period_end: number;
+}
+
+async function handleSubscriptionUpdate(subscription: WebhookSubscription) {
   const customerId = subscription.customer as string;
 
   // Find user by Stripe customer ID
@@ -146,7 +155,7 @@ async function handleSubscriptionUpdate(subscription: Stripe.Subscription) {
   }
 }
 
-async function handleSubscriptionCanceled(subscription: Stripe.Subscription) {
+async function handleSubscriptionCanceled(subscription: WebhookSubscription) {
   const customerId = subscription.customer as string;
 
   const { data: user } = await supabase
@@ -165,3 +174,4 @@ async function handleSubscriptionCanceled(subscription: Stripe.Subscription) {
       .eq("id", user.id);
   }
 }
+

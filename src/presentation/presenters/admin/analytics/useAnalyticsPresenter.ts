@@ -1,13 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  AnalyticsPresenterFactory,
-  type AnalyticsViewModel,
-} from "./AnalyticsPresenter";
+import { type AnalyticsViewModel } from "./AnalyticsPresenter";
+import { createClientAnalyticsPresenter } from "./AnalyticsPresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = AnalyticsPresenterFactory.createClient();
+const presenter = createClientAnalyticsPresenter();
 
 export interface AnalyticsPresenterState {
   viewModel: AnalyticsViewModel | null;

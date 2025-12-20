@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  HistoryPresenterFactory,
-  type HistoryViewModel,
-} from "./HistoryPresenter";
+import { type HistoryViewModel } from "./HistoryPresenter";
+import { createClientHistoryPresenter } from "./HistoryPresenterClientFactory";
 
-const presenter = HistoryPresenterFactory.createClient();
+const presenter = createClientHistoryPresenter();
 
 export interface HistoryPresenterState {
   viewModel: HistoryViewModel | null;

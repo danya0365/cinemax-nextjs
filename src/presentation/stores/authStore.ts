@@ -1,6 +1,6 @@
 "use client";
 
-import { createClientSupabaseClient } from "@/src/infrastructure/config";
+import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
 import type { AuthChangeEvent, Session, User } from "@supabase/supabase-js";
 import localforage from "localforage";
 import { create } from "zustand";

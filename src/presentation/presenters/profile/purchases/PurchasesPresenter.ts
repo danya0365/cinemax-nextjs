@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -114,17 +112,3 @@ export class PurchasesPresenter {
   }
 }
 
-/**
- * Factory for creating PurchasesPresenter instances
- */
-export class PurchasesPresenterFactory {
-  static async createServer(): Promise<PurchasesPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new PurchasesPresenter(supabase);
-  }
-
-  static createClient(): PurchasesPresenter {
-    const supabase = createClientSupabaseClient();
-    return new PurchasesPresenter(supabase);
-  }
-}

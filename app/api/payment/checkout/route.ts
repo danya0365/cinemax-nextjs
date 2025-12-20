@@ -1,8 +1,10 @@
 import {
-  createEpisodeCheckout,
-  createSubscriptionCheckout,
+    createEpisodeCheckout,
+    createSubscriptionCheckout,
 } from "@/src/infrastructure/services/payment.service";
 import { NextRequest, NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {

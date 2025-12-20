@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useState } from "react";
 import {
-  SeriesPresenterFactory,
   type Series,
   type SeriesFilters,
   type SeriesViewModel,
 } from "./SeriesPresenter";
+import { createClientSeriesPresenter } from "./SeriesPresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = SeriesPresenterFactory.createClient();
+const presenter = createClientSeriesPresenter();
 
 export interface SeriesPresenterState {
   viewModel: SeriesViewModel | null;

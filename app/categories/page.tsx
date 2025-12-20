@@ -1,6 +1,6 @@
 import { MainLayout } from "@/src/presentation/components";
 import { CategoriesView } from "@/src/presentation/components/categories/CategoriesView";
-import { CategoriesPresenterFactory } from "@/src/presentation/presenters/categories";
+import { createServerCategoriesPresenter } from "@/src/presentation/presenters/categories/CategoriesPresenterServerFactory";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -12,7 +12,7 @@ export const fetchCache = "force-no-store";
  * Generate metadata for the page
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const presenter = await CategoriesPresenterFactory.createServer();
+  const presenter = await createServerCategoriesPresenter();
   return presenter.generateMetadata();
 }
 
@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * Uses presenter pattern following Clean Architecture
  */
 export default async function CategoriesPage() {
-  const presenter = await CategoriesPresenterFactory.createServer();
+  const presenter = await createServerCategoriesPresenter();
 
   try {
     // Get view model from presenter

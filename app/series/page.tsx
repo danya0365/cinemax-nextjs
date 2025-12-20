@@ -1,6 +1,6 @@
 import { MainLayout } from "@/src/presentation/components";
 import { SeriesCatalogView } from "@/src/presentation/components/series/SeriesCatalogView";
-import { SeriesPresenterFactory } from "@/src/presentation/presenters/series";
+import { createServerSeriesPresenter } from "@/src/presentation/presenters/series/SeriesPresenterServerFactory";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ interface SeriesPageProps {
  * Generate metadata for the page
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const presenter = await SeriesPresenterFactory.createServer();
+  const presenter = await createServerSeriesPresenter();
   return presenter.generateMetadata();
 }
 
@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function SeriesPage({ searchParams }: SeriesPageProps) {
   const params = await searchParams;
-  const presenter = await SeriesPresenterFactory.createServer();
+  const presenter = await createServerSeriesPresenter();
 
   try {
     // Parse filters from search params

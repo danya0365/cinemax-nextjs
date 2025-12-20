@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  PaymentsPresenterFactory,
-  type PaymentsViewModel,
-} from "./PaymentsPresenter";
+import { type PaymentsViewModel } from "./PaymentsPresenter";
+import { createClientPaymentsPresenter } from "./PaymentsPresenterClientFactory";
 
-const presenter = PaymentsPresenterFactory.createClient();
+const presenter = createClientPaymentsPresenter();
 
 export interface PaymentsPresenterState {
   viewModel: PaymentsViewModel | null;

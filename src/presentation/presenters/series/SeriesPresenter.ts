@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -295,20 +293,5 @@ export class SeriesPresenter {
       description:
         "รวมซีรีย์จีน ซีรีย์เกาหลี ซีรีย์ไทย คุณภาพ HD พากย์ไทย ซับไทย ดูฟรีตอนแรก",
     };
-  }
-}
-
-/**
- * Factory for creating SeriesPresenter instances
- */
-export class SeriesPresenterFactory {
-  static async createServer(): Promise<SeriesPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new SeriesPresenter(supabase);
-  }
-
-  static createClient(): SeriesPresenter {
-    const supabase = createClientSupabaseClient();
-    return new SeriesPresenter(supabase);
   }
 }

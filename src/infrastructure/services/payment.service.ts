@@ -1,9 +1,16 @@
 import Stripe from "stripe";
 
-// Initialize Stripe
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2023-10-16",
-});
+// Initialized lazily to avoid build-time errors when API key is missing
+let stripeInstance: Stripe | null = null;
+
+function getStripe() {
+  if (!stripeInstance) {
+    stripeInstance = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder", {
+      apiVersion: "2025-11-17.clover",
+    });
+  }
+  return stripeInstance;
+}
 
 export interface CreateCheckoutParams {
   episodeId: string;
@@ -36,7 +43,7 @@ export async function createEpisodeCheckout(
   params: CreateCheckoutParams
 ): Promise<PaymentResult> {
   try {
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card", "promptpay"],
       mode: "payment",
       customer_email: params.userEmail,
@@ -90,12 +97,12 @@ export async function createSubscriptionCheckout(
 ): Promise<PaymentResult> {
   try {
     // First, create or get the price
-    const product = await stripe.products.create({
+    const product = await getStripe().products.create({
       name: `CINEMAX ${params.planName}`,
       description: `แพ็คเกจสมาชิก ${params.planName}`,
     });
 
-    const price = await stripe.prices.create({
+    const price = await getStripe().prices.create({
       product: product.id,
       unit_amount: params.price * 100,
       currency: "thb",
@@ -104,7 +111,7 @@ export async function createSubscriptionCheckout(
       },
     });
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ["card"],
       mode: "subscription",
       customer_email: params.userEmail,
@@ -144,7 +151,7 @@ export async function createSubscriptionCheckout(
  */
 export async function verifyPaymentSession(sessionId: string) {
   try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const session = await getStripe().checkout.sessions.retrieve(sessionId);
 
     return {
       success: true,
@@ -170,7 +177,7 @@ export async function handleWebhookEvent(
   signature: string
 ): Promise<{ success: boolean; event?: Stripe.Event; error?: string }> {
   try {
-    const event = stripe.webhooks.constructEvent(
+    const event = getStripe().webhooks.constructEvent(
       payload,
       signature,
       process.env.STRIPE_WEBHOOK_SECRET || ""
@@ -193,7 +200,7 @@ export async function getCustomerPortalUrl(
   customerId: string
 ): Promise<string | null> {
   try {
-    const session = await stripe.billingPortal.sessions.create({
+    const session = await getStripe().billingPortal.sessions.create({
       customer: customerId,
       return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/profile/settings`,
     });
@@ -209,7 +216,7 @@ export async function getCustomerPortalUrl(
  */
 export async function cancelSubscription(subscriptionId: string) {
   try {
-    const subscription = await stripe.subscriptions.cancel(subscriptionId);
+    const subscription = await getStripe().subscriptions.cancel(subscriptionId);
     return { success: true, subscription };
   } catch (error) {
     console.error("Cancel subscription error:", error);

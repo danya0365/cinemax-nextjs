@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  AdminCategoriesPresenterFactory,
-  type AdminCategoriesViewModel,
-} from "./AdminCategoriesPresenter";
+import { type AdminCategoriesViewModel } from "./AdminCategoriesPresenter";
+import { createClientAdminCategoriesPresenter } from "./AdminCategoriesPresenterClientFactory";
 
-const presenter = AdminCategoriesPresenterFactory.createClient();
+const presenter = createClientAdminCategoriesPresenter();
 
 export interface AdminCategoriesPresenterState {
   viewModel: AdminCategoriesViewModel | null;

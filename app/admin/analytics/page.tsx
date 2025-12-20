@@ -1,5 +1,5 @@
 import { AnalyticsView } from "@/src/presentation/components/admin/analytics";
-import { AnalyticsPresenterFactory } from "@/src/presentation/presenters/admin/analytics";
+import { createServerAnalyticsPresenter } from "@/src/presentation/presenters/admin/analytics/AnalyticsPresenterServerFactory";
 import type { Metadata } from "next";
 import Link from "next/link";
 
@@ -11,7 +11,7 @@ export const fetchCache = "force-no-store";
  * Generate metadata for the page
  */
 export async function generateMetadata(): Promise<Metadata> {
-  const presenter = await AnalyticsPresenterFactory.createServer();
+  const presenter = await createServerAnalyticsPresenter();
   return presenter.generateMetadata();
 }
 
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
  * Uses presenter pattern following Clean Architecture
  */
 export default async function AnalyticsPage() {
-  const presenter = await AnalyticsPresenterFactory.createServer();
+  const presenter = await createServerAnalyticsPresenter();
 
   try {
     // Get view model from presenter

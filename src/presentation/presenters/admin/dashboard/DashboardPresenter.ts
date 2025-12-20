@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -182,17 +180,5 @@ export class DashboardPresenter {
       title: "แดชบอร์ด | CINEMAX Admin",
       description: "ภาพรวมระบบและสถิติทั้งหมด",
     };
-  }
-}
-
-export class DashboardPresenterFactory {
-  static async createServer(): Promise<DashboardPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new DashboardPresenter(supabase);
-  }
-
-  static createClient(): DashboardPresenter {
-    const supabase = createClientSupabaseClient();
-    return new DashboardPresenter(supabase);
   }
 }

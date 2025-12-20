@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -13,6 +11,10 @@ export interface Category {
   icon: string | null;
   series_count?: number;
 }
+
+type CategoryRow = Category & {
+  series?: { count: number }[];
+};
 
 export interface CategoriesViewModel {
   categories: Category[];
@@ -58,7 +60,7 @@ export class CategoriesPresenter {
     }
 
     // Transform data to include series_count
-    return (data || []).map((cat: any) => ({
+    return ((data as CategoryRow[]) || []).map((cat) => ({
       ...cat,
       series_count: cat.series?.[0]?.count || 0,
     }));
@@ -91,20 +93,5 @@ export class CategoriesPresenter {
       description:
         "เลือกดูซีรีย์ตามหมวดหมู่ที่คุณชื่นชอบ โรแมนติก แอ็คชั่น ดราม่า ตลก และอื่นๆ",
     };
-  }
-}
-
-/**
- * Factory for creating CategoriesPresenter instances
- */
-export class CategoriesPresenterFactory {
-  static async createServer(): Promise<CategoriesPresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new CategoriesPresenter(supabase);
-  }
-
-  static createClient(): CategoriesPresenter {
-    const supabase = createClientSupabaseClient();
-    return new CategoriesPresenter(supabase);
   }
 }

@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  DashboardPresenterFactory,
-  type DashboardViewModel,
-} from "./DashboardPresenter";
+import { type DashboardViewModel } from "./DashboardPresenter";
+import { createClientDashboardPresenter } from "./DashboardPresenterClientFactory";
 
-const presenter = DashboardPresenterFactory.createClient();
+const presenter = createClientDashboardPresenter();
 
 export interface DashboardPresenterState {
   viewModel: DashboardViewModel | null;

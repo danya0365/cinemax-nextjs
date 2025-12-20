@@ -1,13 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  NotificationsPresenterFactory,
-  type NotificationsViewModel,
-} from "./NotificationsPresenter";
+import { type NotificationsViewModel } from "./NotificationsPresenter";
+import { createClientNotificationsPresenter } from "./NotificationsPresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = NotificationsPresenterFactory.createClient();
+const presenter = createClientNotificationsPresenter();
 
 export interface NotificationsPresenterState {
   viewModel: NotificationsViewModel | null;

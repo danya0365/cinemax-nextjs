@@ -1,12 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  FavoritesPresenterFactory,
-  type FavoritesViewModel,
-} from "./FavoritesPresenter";
+import { type FavoritesViewModel } from "./FavoritesPresenter";
+import { createClientFavoritesPresenter } from "./FavoritesPresenterClientFactory";
 
-const presenter = FavoritesPresenterFactory.createClient();
+const presenter = createClientFavoritesPresenter();
 
 export interface FavoritesPresenterState {
   viewModel: FavoritesViewModel | null;

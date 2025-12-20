@@ -1,14 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import {
-  CategoriesPresenterFactory,
-  type CategoriesViewModel,
-  type Category,
-} from "./CategoriesPresenter";
+import { type CategoriesViewModel, type Category } from "./CategoriesPresenter";
+import { createClientCategoriesPresenter } from "./CategoriesPresenterClientFactory";
 
 // Initialize presenter instance once (singleton pattern)
-const presenter = CategoriesPresenterFactory.createClient();
+const presenter = createClientCategoriesPresenter();
 
 export interface CategoriesPresenterState {
   viewModel: CategoriesViewModel | null;

@@ -1,5 +1,3 @@
-import { createClientSupabaseClient } from "@/src/infrastructure/config/supabase-client-client";
-import { createServerSupabaseClient } from "@/src/infrastructure/config/supabase-server-client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 // Types
@@ -151,20 +149,5 @@ export class HomePresenter {
       description:
         "รวมซีรีย์ไมโครดราม่า ซีรีย์แนวตั้ง ซีรีย์สั้น คุณภาพ HD พากย์ไทย ซับไทย ดูฟรีตอนแรก",
     };
-  }
-}
-
-/**
- * Factory for creating HomePresenter instances
- */
-export class HomePresenterFactory {
-  static async createServer(): Promise<HomePresenter> {
-    const supabase = await createServerSupabaseClient();
-    return new HomePresenter(supabase);
-  }
-
-  static createClient(): HomePresenter {
-    const supabase = createClientSupabaseClient();
-    return new HomePresenter(supabase);
   }
 }
