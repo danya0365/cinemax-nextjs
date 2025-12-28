@@ -1,5 +1,6 @@
 "use client";
 
+import { useLocale } from "@/src/presentation/hooks";
 import Link from "next/link";
 import { useState } from "react";
 import { LanguageSwitcher } from "../LanguageSwitcher";
@@ -7,20 +8,17 @@ import { SearchBar } from "../SearchBar";
 import { ThemeToggle } from "../ThemeToggle";
 import { UserMenu } from "./UserMenu";
 
-interface NavItem {
-  label: string;
-  href: string;
-}
-
-const navItems: NavItem[] = [
-  { label: "หน้าแรก", href: "/" },
-  { label: "ซีรีย์", href: "/series" },
-  { label: "หมวดหมู่", href: "/categories" },
-  { label: "ยอดนิยม", href: "/trending" },
-];
-
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { t, isLoaded } = useLocale();
+
+  // Navigation items with translation keys
+  const navItems = [
+    { labelKey: "nav.home" as const, href: "/" },
+    { labelKey: "nav.series" as const, href: "/series" },
+    { labelKey: "nav.categories" as const, href: "/categories" },
+    { labelKey: "nav.trending" as const, href: "/trending" },
+  ];
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -50,7 +48,7 @@ export function Header() {
                 href={item.href}
                 className="text-sm font-medium text-muted hover:text-foreground transition-colors"
               >
-                {item.label}
+                {isLoaded ? t(item.labelKey) : "..."}
               </Link>
             ))}
           </nav>
@@ -125,7 +123,7 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="px-4 py-2 text-sm font-medium text-muted hover:text-foreground hover:bg-muted-light dark:hover:bg-muted-dark rounded-lg transition-colors"
                 >
-                  {item.label}
+                  {isLoaded ? t(item.labelKey) : "..."}
                 </Link>
               ))}
               <hr className="my-2 border-border" />
@@ -139,14 +137,14 @@ export function Header() {
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="px-4 py-2 text-sm font-medium text-foreground text-center border border-border rounded-lg hover:bg-muted-light dark:hover:bg-muted-dark transition-colors"
                 >
-                  เข้าสู่ระบบ
+                  {isLoaded ? t("nav.login") : "..."}
                 </Link>
                 <Link
                   href="/auth/register"
                   onClick={() => setIsMobileMenuOpen(false)}
                   className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 text-center rounded-lg transition-colors"
                 >
-                  สมัครสมาชิก
+                  {isLoaded ? t("nav.register") : "..."}
                 </Link>
               </div>
             </nav>
@@ -156,3 +154,4 @@ export function Header() {
     </header>
   );
 }
+

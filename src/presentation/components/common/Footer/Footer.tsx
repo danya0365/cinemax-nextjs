@@ -1,3 +1,6 @@
+"use client";
+
+import { useLocale } from "@/src/presentation/hooks";
 import Link from "next/link";
 
 interface FooterLink {
@@ -90,6 +93,7 @@ const socialLinks = [
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
+  const { t, isLoaded } = useLocale();
 
   return (
     <footer className="bg-surface border-t border-border">
@@ -155,26 +159,26 @@ export function Footer() {
         <div className="mt-12 pt-8 border-t border-border">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-muted">
-              &copy; {currentYear} CINEMAX. All rights reserved.
+              &copy; {currentYear} CINEMAX. {isLoaded ? t("footer.copyright") : "All rights reserved"}.
             </p>
             <div className="flex items-center gap-6">
               <Link
                 href="/terms"
                 className="text-sm text-muted hover:text-foreground transition-colors"
               >
-                เงื่อนไขการใช้งาน
+                {isLoaded ? t("footer.terms") : "Terms"}
               </Link>
               <Link
                 href="/privacy"
                 className="text-sm text-muted hover:text-foreground transition-colors"
               >
-                นโยบายความเป็นส่วนตัว
+                {isLoaded ? t("footer.privacy") : "Privacy"}
               </Link>
               <Link
                 href="/cookies"
                 className="text-sm text-muted hover:text-foreground transition-colors"
               >
-                นโยบายคุกกี้
+                {isLoaded ? t("footer.cookies") : "Cookies"}
               </Link>
             </div>
           </div>
@@ -183,3 +187,4 @@ export function Footer() {
     </footer>
   );
 }
+

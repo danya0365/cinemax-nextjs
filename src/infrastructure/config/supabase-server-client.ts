@@ -1,7 +1,16 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { createMockSupabaseClient } from "../mock/MockSupabaseClient";
+
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK_DATA === "true";
 
 export async function createServerSupabaseClient() {
+  // Return mock client if USE_MOCK is enabled
+  if (USE_MOCK) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return createMockSupabaseClient() as any;
+  }
+
   const cookieStore = await cookies();
 
   return createServerClient(
@@ -27,3 +36,4 @@ export async function createServerSupabaseClient() {
     }
   );
 }
+
